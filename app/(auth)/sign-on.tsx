@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-const SingOn = () => {
+const signon = () => {
   return (
     <View>
       <Text>sign-on</Text>
@@ -9,4 +9,4 @@ const SingOn = () => {
   );
 };
 
-export default SingOn;
+export default signon;
