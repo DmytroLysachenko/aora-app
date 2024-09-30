@@ -1,5 +1,5 @@
 import 'react-native-reanimated';
-import { SafeAreaView } from 'react-native';
+
 import { Slot, SplashScreen } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
