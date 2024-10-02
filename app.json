@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
 
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "package": "com.dlysachenko.aora"
+    },
+    "android": {
+      "package": "com.dlysachenko.aora"
     },
 
     "plugins": ["expo-router"],
