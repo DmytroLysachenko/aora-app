@@ -10,8 +10,7 @@ import "../global.css";
 
 const index = () => {
   return (
-    <SafeAreaView className="bg-[#161622] h-screen w-full">
-      <Text className="text-3xl text-white font-bold">Hello There!</Text>
+    <SafeAreaView className="bg-[#161622] h-full w-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className="w-full justify-center items-center min-h-[85vh] px-4">
           <Image

@@ -9,15 +9,10 @@
 
     "ios": {
       "supportsTablet": true,
-      "package": "com.dlysachenko.aora",
-      "bundler": "metro"
+      "package": "com.dlysachenko.aora"
     },
     "android": {
-      "package": "com.dlysachenko.aora",
-      "bundler": "metro"
-    },
-    "web": {
-      "bundler": "metro"
+      "package": "com.dlysachenko.aora"
     },
 
     "plugins": ["expo-router"],
