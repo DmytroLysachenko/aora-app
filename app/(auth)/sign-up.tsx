@@ -1,36 +1,30 @@
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import images from '@/constants/images';
-import FormField from '@/components/FormField';
-import CustomButton from '@/components/CustomButton';
-import { Link } from 'expo-router';
-import { createUser } from '@/lib/appwrite';
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import images from "@/constants/images";
+import FormField from "@/components/FormField";
+import CustomButton from "@/components/CustomButton";
+import { Link } from "expo-router";
+import { createUser } from "@/lib/appwrite";
 
 const SignUp = () => {
   const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit = async () => {
+  const submit = () => {
     if (!form.username || !form.email || !form.password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert("Error", "Please fill in all fields");
     }
 
-    try {
-      setIsSubmitting(true);
-      await createUser(form.email, form.password, form.username);
-    } catch (error) {
-      if (error.message) {
-        Alert.alert('Error', error.message);
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+    setIsSubmitting(true);
+    createUser(form.email, form.password, form.username)
+      .catch((error) => Alert.alert("Error", error.message))
+      .finally(() => setIsSubmitting(false));
   };
 
   return (

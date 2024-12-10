@@ -1,24 +1,29 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "Aora-app",
+    "slug": "aora-app",
     "version": "1.0.0",
     "orientation": "portrait",
-
-    "scheme": "myapp",
+    "scheme": "aora-app",
     "userInterfaceStyle": "automatic",
 
     "ios": {
       "supportsTablet": true,
-      "package": "com.dlysachenko.aora"
+      "package": "com.dlysachenko.aora",
+      "bundler": "metro"
     },
     "android": {
-      "package": "com.dlysachenko.aora"
+      "package": "com.dlysachenko.aora",
+      "bundler": "metro"
+    },
+    "web": {
+      "bundler": "metro"
     },
 
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "newArchEnabled": true
   }
 }
