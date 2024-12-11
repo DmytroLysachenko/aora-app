@@ -1,11 +1,12 @@
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, Text, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { createUser } from "@/lib/appwrite";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -14,17 +15,29 @@ const SignUp = () => {
     password: "",
   });
 
+  const { setIsLoggedIn, setUser } = useGlobalContext();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit = () => {
-    if (!form.username || !form.email || !form.password) {
+  const submit = async () => {
+    if (form.username === "" || form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
     }
 
     setIsSubmitting(true);
-    createUser(form.email, form.password, form.username)
-      .catch((error) => Alert.alert("Error", error.message))
-      .finally(() => setIsSubmitting(false));
+    try {
+      const result = await createUser(form.email, form.password, form.username);
+      setUser(result);
+      setIsLoggedIn(true);
+
+      router.replace("/home");
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert("Error", error.message);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -36,31 +49,36 @@ const SignUp = () => {
             resizeMode="contain"
             className="w-[115px] h-[35px]"
           />
+
           <Text className="text-2xl text-white text-semibold mt-10 font-psemibold">
             Sign up to Aora
           </Text>
+
           <FormField
             title="Username"
             value={form.username}
-            handleChangeText={(e) => setForm({ ...form, username: e })}
+            handleChangeText={(value) => setForm({ ...form, username: value })}
             otherStyles="mt-10"
             placeholder="Enter your username"
           />
+
           <FormField
             title="Email"
             value={form.email}
-            handleChangeText={(e) => setForm({ ...form, email: e })}
+            handleChangeText={(value) => setForm({ ...form, email: value })}
             otherStyles="mt-7"
             keyboardType="email-address"
             placeholder="Enter your email"
           />
+
           <FormField
             title="Password"
             value={form.password}
-            handleChangeText={(e) => setForm({ ...form, password: e })}
+            handleChangeText={(value) => setForm({ ...form, password: value })}
             otherStyles="mt-7"
             placeholder="Enter your password"
           />
+
           <CustomButton
             title="Sign up"
             handlePress={submit}
@@ -72,6 +90,7 @@ const SignUp = () => {
             <Text className="text-lg text-gray-100 font-pregular">
               Have an account already?
             </Text>
+
             <Link
               href="/sign-in"
               className="text-lg font-psemibold text-secondary"

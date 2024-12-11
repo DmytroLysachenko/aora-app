@@ -3,8 +3,8 @@ import "react-native-reanimated";
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import GlobalProvider from "@/context/GlobalProvider";
 import "../global.css";
-import { Text } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,7 +29,7 @@ export default function RootLayout() {
   if (!fontsLoaded && !error) return null;
 
   return (
-    <>
+    <GlobalProvider>
       <Stack>
         <Stack.Screen
           name="index"
@@ -48,6 +48,6 @@ export default function RootLayout() {
           options={{ headerShown: false }}
         /> */}
       </Stack>
-    </>
+    </GlobalProvider>
   );
 }
