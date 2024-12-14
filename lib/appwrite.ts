@@ -17,6 +17,16 @@ export const appwriteConfig = {
   storageId: "66fcf9270006e444cb46",
 };
 
+const {
+  endpoint,
+  platform,
+  projectId,
+  databaseId,
+  userCollectionId,
+  videosCollectionId,
+  storageId,
+} = appwriteConfig;
+
 const client = new Client();
 
 client
@@ -90,6 +100,16 @@ export const getCurrentUser = async () => {
     if (!currentUser) throw Error;
 
     return currentUser.documents[0];
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getAllPosts = async () => {
+  try {
+    const posts = await databases.listDocuments(databaseId, videosCollectionId);
+
+    return posts.documents;
   } catch (error) {
     throw new Error(error as string);
   }
