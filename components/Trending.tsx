@@ -9,6 +9,8 @@ import { useVideoPlayer, VideoView } from "expo-video";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 import icons from "@/constants/icons";
+import { Video, ResizeMode } from "expo-av";
+import { useEventListener } from "expo";
 
 const zoomIn = {
   0: {
@@ -31,6 +33,13 @@ const zoomOut = {
 const TrendingItem = ({ activeItem, item }) => {
   const [play, setPlay] = useState(false);
   const player = useVideoPlayer(item.video);
+
+  useEventListener(player, "statusChange", ({ status }) => {
+    if (status === "idle") {
+      setPlay(false);
+    }
+  });
+
   return (
     <Animatable.View
       className="mr-5"
@@ -43,11 +52,9 @@ const TrendingItem = ({ activeItem, item }) => {
           style={{
             width: 208,
             height: 288,
-            borderRadius: 33,
-            backgroundColor: "rgb(255 255 255 / 0.1)",
+            borderRadius: 35,
+            backgroundColor: "rgba(255,255,255,0.2)",
           }}
-          className="w-52 h-72 rounded-[33px] mt-3 bg-white/10"
-          nativeControls={false}
         />
       ) : (
         <TouchableOpacity
@@ -59,7 +66,7 @@ const TrendingItem = ({ activeItem, item }) => {
           }}
         >
           <ImageBackground
-            source={{ uri: item.thambnail }}
+            source={{ uri: item.thumbnail }}
             className="w-52 h-72 rounded-[35px] my-5 overflow-hidden shadow-lg shadow-black/40"
             imageStyle={{ borderRadius: 10 }}
           />

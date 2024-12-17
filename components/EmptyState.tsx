@@ -11,21 +11,22 @@ interface EmptyStateProps {
 
 const EmptyState = ({ title, subtitle }: EmptyStateProps) => {
   return (
-    <View className="justify-center items-center px-4 h-full">
+    <View className="flex justify-center items-center px-4">
       <Image
         source={images.empty}
-        className="w-[270px] h-[215px]"
         resizeMode="contain"
+        className="w-[270px] h-[216px]"
       />
+
+      <Text className="text-sm font-pmedium text-gray-100">{title}</Text>
       <Text className="text-xl text-center font-psemibold text-white mt-2">
         {subtitle}
       </Text>
 
-      <Text className="text-sm font-pmedium text-gray-100">{title}</Text>
-
       <CustomButton
         title="Create video"
-        handlePress={() => router.push("/create")}
+        handlePress={() => router.push("/home")}
+        containerStyle="w-full my-5"
       />
     </View>
   );
