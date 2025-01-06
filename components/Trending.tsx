@@ -9,7 +9,6 @@ import { useVideoPlayer, VideoView } from "expo-video";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 import icons from "@/constants/icons";
-import { Video, ResizeMode } from "expo-av";
 import { useEventListener } from "expo";
 
 const zoomIn = {
@@ -43,7 +42,7 @@ const TrendingItem = ({ activeItem, item }) => {
   return (
     <Animatable.View
       className="mr-5"
-      animation={activeItem === item.$id ? zoomIn : zoomOut}
+      animation={activeItem === `trending-${item.$id}` ? zoomIn : zoomOut}
       duration={500}
     >
       {play ? (
@@ -93,11 +92,12 @@ const Trending = ({ posts }: any) => {
   return (
     <FlatList
       data={posts}
-      keyExtractor={(item) => item.$id}
+      keyExtractor={(item) => `trending-${item.$id}`}
       renderItem={({ item }) => (
         <TrendingItem
           activeItem={activeItem}
           item={item}
+          key={`trending-${item.$id}`}
         />
       )}
       horizontal

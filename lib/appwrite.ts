@@ -29,10 +29,7 @@ const {
 
 const client = new Client();
 
-client
-  .setEndpoint(appwriteConfig.endpoint)
-  .setProject(appwriteConfig.projectId)
-  .setPlatform(appwriteConfig.platform);
+client.setEndpoint(endpoint).setProject(projectId).setPlatform(platform);
 
 const account = new Account(client);
 const avatars = new Avatars(client);
@@ -60,7 +57,7 @@ export const createUser = async (
 
     const newUser = await databases.createDocument(
       appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
+      userCollectionId,
       ID.unique(),
       {
         accountId: newAccount.$id,
@@ -80,6 +77,15 @@ export const signIn = async (email: string, password: string) => {
   try {
     const session = await account.createEmailPasswordSession(email, password);
 
+    return session;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const signOut = async () => {
+  try {
+    const session = await account.deleteSession("current");
     return session;
   } catch (error) {
     throw new Error(error as string);
@@ -131,11 +137,24 @@ export const getLatestPosts = async () => {
 
 export const searchPosts = async (query: string) => {
   try {
-    console.log(query);
     const posts = await databases.listDocuments(
       databaseId,
       videosCollectionId,
       [Query.search("title", query)]
+    );
+
+    return posts.documents;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getUserPosts = async (userId: string) => {
+  try {
+    const posts = await databases.listDocuments(
+      databaseId,
+      videosCollectionId,
+      [Query.equal("creator", userId)]
     );
 
     return posts.documents;

@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { Models } from "react-native-appwrite";
 
-export const useAppwrite = (func) => {
+export const useAppwrite = <T extends () => Promise<Models.Document[]>>(
+  func: T
+) => {
   const [data, setData] = useState<Models.Document[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

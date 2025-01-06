@@ -3,6 +3,11 @@ import React, { useState } from "react";
 import icons from "@/constants/icons";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useEventListener } from "expo";
+import { Models } from "react-native-appwrite";
+
+interface VideoCardProps {
+  video: Models.Document;
+}
 
 const VideoCard = ({
   video: {
@@ -11,7 +16,7 @@ const VideoCard = ({
     video,
     creator: { username, avatar },
   },
-}) => {
+}: VideoCardProps) => {
   const [play, setPlay] = useState(false);
 
   const player = useVideoPlayer(video);
