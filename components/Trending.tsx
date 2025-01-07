@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 import icons from "@/constants/icons";
 import { useEventListener } from "expo";
+import { Models } from "react-native-appwrite";
 
 const zoomIn = {
   0: {
@@ -29,7 +30,12 @@ const zoomOut = {
   },
 };
 
-const TrendingItem = ({ activeItem, item }) => {
+interface TrendingItemProps {
+  activeItem: Models.Document;
+  item: Models.Document;
+}
+
+const TrendingItem = ({ activeItem, item }: TrendingItemProps) => {
   const [play, setPlay] = useState(false);
   const player = useVideoPlayer(item.video);
 
@@ -42,7 +48,7 @@ const TrendingItem = ({ activeItem, item }) => {
   return (
     <Animatable.View
       className="mr-5"
-      animation={activeItem === `trending-${item.$id}` ? zoomIn : zoomOut}
+      animation={activeItem.$id === item.$id ? zoomIn : zoomOut}
       duration={500}
     >
       {play ? (
@@ -80,12 +86,16 @@ const TrendingItem = ({ activeItem, item }) => {
   );
 };
 
-const Trending = ({ posts }: any) => {
+const Trending = ({ posts }: { posts: Models.Document[] }) => {
   const [activeItem, setActiveItem] = useState(posts[1]);
 
-  const viewableItemsChanged = ({ viewableItems }) => {
+  const viewableItemsChanged = ({
+    viewableItems,
+  }: {
+    viewableItems: Models.Document[];
+  }) => {
     if (viewableItems.length > 0) {
-      setActiveItem(viewableItems[0].key);
+      setActiveItem(viewableItems[0].item);
     }
   };
 

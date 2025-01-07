@@ -17,6 +17,14 @@ import { router } from "expo-router";
 import { createVideo } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
 
+export interface Post {
+  userId: string;
+  title: string;
+  video: any;
+  thumbnail: any;
+  prompt: string;
+}
+
 const Create = () => {
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState<{
@@ -61,7 +69,7 @@ const Create = () => {
     }
     setUploading(true);
     try {
-      await createVideo({ ...form, userId: user?.$id });
+      await createVideo({ ...form, userId: user!.$id });
       Alert.alert("Success", "Video uploaded successfully");
       router.push("/home");
     } catch (error) {

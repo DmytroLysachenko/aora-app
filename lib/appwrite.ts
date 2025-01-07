@@ -1,3 +1,4 @@
+import { Post } from "@/app/(tabs)/create";
 import {
   Account,
   Avatars,
@@ -166,7 +167,21 @@ export const getUserPosts = async (userId: string) => {
   }
 };
 
-export const getFilePreview = async (fileId, type) => {
+export const getUserFavoritePosts = async (userId: string) => {
+  try {
+    const posts = await databases.listDocuments(
+      databaseId,
+      videosCollectionId,
+      [Query.contains("likedBy", userId)]
+    );
+
+    return posts.documents;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getFilePreview = async (fileId: string, type: string) => {
   let fileUrl;
   try {
     if (type === "video") {
@@ -191,7 +206,7 @@ export const getFilePreview = async (fileId, type) => {
   }
 };
 
-const uploadFile = async (file, type) => {
+const uploadFile = async (file: any, type: string) => {
   if (!file) return;
   const { mimeType, ...rest } = file;
   const asset = { type: mimeType, ...rest };
@@ -208,7 +223,7 @@ const uploadFile = async (file, type) => {
   }
 };
 
-export const createVideo = async (form) => {
+export const createVideo = async (form: Post) => {
   try {
     const [thumbnailUrl, videoUrl] = await Promise.all([
       uploadFile(form.thumbnail, "image"),
@@ -228,6 +243,53 @@ export const createVideo = async (form) => {
     );
 
     return newPost;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const addVideoToFavorite = async (userId: string, videoId: string) => {
+  try {
+    const post = await databases.getDocument(
+      databaseId,
+      videosCollectionId,
+      videoId
+    );
+
+    const updatedPost = await databases.updateDocument(
+      databaseId,
+      videosCollectionId,
+      videoId,
+      {
+        likedBy: [...post.likedBy, userId],
+      }
+    );
+    return updatedPost;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+export const removeVideoFromFavorites = async (
+  userId: string,
+  videoId: string
+) => {
+  console.log(userId, videoId);
+  try {
+    const post = await databases.getDocument(
+      databaseId,
+      videosCollectionId,
+      videoId
+    );
+
+    const updatedPost = await databases.updateDocument(
+      databaseId,
+      videosCollectionId,
+      videoId,
+      {
+        likedBy: [...post.likedBy.filter((user: string) => user !== userId)],
+      }
+    );
+    return updatedPost;
   } catch (error) {
     throw new Error(error as string);
   }

@@ -4,7 +4,7 @@ import icons from "../../constants/icons";
 import { Image, Text, View } from "react-native";
 
 interface TabIconProps {
-  icon: any; // assuming icon is an image source, could be a string or a number
+  icon: any;
   color: string;
   name: string;
   focused: boolean;
