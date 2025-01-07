@@ -273,7 +273,6 @@ export const removeVideoFromFavorites = async (
   userId: string,
   videoId: string
 ) => {
-  console.log(userId, videoId);
   try {
     const post = await databases.getDocument(
       databaseId,

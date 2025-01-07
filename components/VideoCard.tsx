@@ -40,8 +40,6 @@ const VideoCard = ({
   const handleAddToFavorites = async () => {
     try {
       const response = await addVideoToFavorite(user!.$id, videoId);
-
-      console.log(response);
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert("Error", error.message);
@@ -53,8 +51,6 @@ const VideoCard = ({
   const handleRemoveFromFavorites = async () => {
     try {
       const response = await removeVideoFromFavorites(user!.$id, videoId);
-
-      console.log(response);
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert("Error", error.message);
