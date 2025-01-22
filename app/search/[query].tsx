@@ -45,6 +45,7 @@ const Search = () => {
           <EmptyState
             title="No videos found"
             subtitle="No videos created yet"
+            type="home"
           />
         )}
       />

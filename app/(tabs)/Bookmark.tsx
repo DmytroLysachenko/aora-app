@@ -59,6 +59,7 @@ const Bookmark = () => {
           <EmptyState
             title="No videos found"
             subtitle="No videos added to your bookmarks yet"
+            type="bookmark"
           />
         )}
         refreshControl={

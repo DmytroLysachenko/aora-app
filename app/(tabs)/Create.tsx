@@ -7,21 +7,22 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
+import * as DocumentPicker from "expo-document-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
+import { useVideoPlayer, VideoView } from "expo-video";
+
 import FormField from "@/components/FormField";
 import { icons } from "@/constants";
-import { useVideoPlayer, VideoView } from "expo-video";
 import CustomButton from "@/components/CustomButton";
-import * as DocumentPicker from "expo-document-picker";
-import { router } from "expo-router";
 import { createVideo } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
 
 export interface Post {
   userId: string;
   title: string;
-  video: any;
-  thumbnail: any;
+  video: string;
+  thumbnail: string;
   prompt: string;
 }
 
@@ -29,8 +30,8 @@ const Create = () => {
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState<{
     title: string;
-    video: any;
-    thumbnail: any;
+    video: DocumentPicker.DocumentPickerAsset | null;
+    thumbnail: DocumentPicker.DocumentPickerAsset | null;
     prompt: string;
   }>({
     title: "",
@@ -56,9 +57,13 @@ const Create = () => {
       if (selectType === "video") {
         setForm({ ...form, video: result.assets[0] });
       }
-    } else {
+
       setTimeout(() => {
         Alert.alert("Document picked", JSON.stringify(result, null, 2));
+      }, 100);
+    } else {
+      setTimeout(() => {
+        Alert.alert("Cancelled", "File selection was canceled!");
       }, 100);
     }
   };

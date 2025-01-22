@@ -1,10 +1,11 @@
 import { Tabs } from "expo-router";
 import React from "react";
+import { Image, ImageSourcePropType, Text, View } from "react-native";
+
 import icons from "../../constants/icons";
-import { Image, Text, View } from "react-native";
 
 interface TabIconProps {
-  icon: any;
+  icon: ImageSourcePropType;
   color: string;
   name: string;
   focused: boolean;

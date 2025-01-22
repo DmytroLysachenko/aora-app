@@ -7,9 +7,12 @@ import { router } from "expo-router";
 interface EmptyStateProps {
   title: string;
   subtitle: string;
+  type: "bookmark" | "home";
 }
 
-const EmptyState = ({ title, subtitle }: EmptyStateProps) => {
+const EmptyState = ({ title, subtitle, type }: EmptyStateProps) => {
+  const isHomePage = type === "home";
+
   return (
     <View className="flex justify-center items-center px-4">
       <Image
@@ -24,8 +27,8 @@ const EmptyState = ({ title, subtitle }: EmptyStateProps) => {
       </Text>
 
       <CustomButton
-        title="Create video"
-        handlePress={() => router.push("/create")}
+        title={isHomePage ? "Create video" : "Add video"}
+        handlePress={() => router.push(isHomePage ? "/create" : "/home")}
         containerStyle="w-full my-5"
       />
     </View>

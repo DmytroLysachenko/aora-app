@@ -10,6 +10,8 @@ import {
   Storage,
 } from "react-native-appwrite";
 
+import * as DocumentPicker from "expo-document-picker";
+
 export const appwriteConfig = {
   endpoint: "https://cloud.appwrite.io/v1",
   platform: "com.dlysachenko.aora",
@@ -223,7 +225,12 @@ const uploadFile = async (file: any, type: string) => {
   }
 };
 
-export const createVideo = async (form: Post) => {
+export const createVideo = async (
+  form: Omit<Post, "video" | "thumbnail"> & {
+    video: DocumentPicker.DocumentPickerAsset | null;
+    thumbnail: DocumentPicker.DocumentPickerAsset | null;
+  }
+) => {
   try {
     const [thumbnailUrl, videoUrl] = await Promise.all([
       uploadFile(form.thumbnail, "image"),

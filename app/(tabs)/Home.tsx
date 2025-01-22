@@ -64,6 +64,7 @@ const Home = () => {
           <EmptyState
             title="No videos found"
             subtitle="No videos created yet"
+            type="home"
           />
         )}
         refreshControl={
