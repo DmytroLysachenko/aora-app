@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "aora-app",
+    "owner": "dmytrolysachenko",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
