@@ -8,7 +8,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "package": "com.dlysachenko.aora"
+      "bundleIdentifier": "com.dlysachenko.aora"
     },
     "android": {
       "package": "com.dlysachenko.aora"
