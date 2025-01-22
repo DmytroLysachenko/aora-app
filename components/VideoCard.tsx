@@ -9,6 +9,7 @@ import { addVideoToFavorite, removeVideoFromFavorites } from "@/lib/appwrite";
 
 interface VideoCardProps {
   video: Models.Document;
+  refetch?: () => Promise<void>;
 }
 
 const VideoCard = ({
@@ -20,14 +21,17 @@ const VideoCard = ({
     likedBy,
     $id: videoId,
   },
+  refetch,
 }: VideoCardProps) => {
   const [play, setPlay] = useState(false);
+
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { user } = useGlobalContext();
 
   const isFavorite = likedBy.includes(user!.$id);
-
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const player = useVideoPlayer(video);
 
@@ -38,25 +42,32 @@ const VideoCard = ({
   });
 
   const handleAddToFavorites = async () => {
+    setIsLoading(true);
+    setIsMenuVisible(false);
+
     try {
       const response = await addVideoToFavorite(user!.$id, videoId);
+      refetch && (await refetch());
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert("Error", error.message);
       }
     } finally {
-      setIsMenuVisible(false);
+      setIsLoading(false);
     }
   };
   const handleRemoveFromFavorites = async () => {
+    setIsLoading(true);
+    setIsMenuVisible(false);
     try {
       const response = await removeVideoFromFavorites(user!.$id, videoId);
+      refetch && (await refetch());
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert("Error", error.message);
       }
     } finally {
-      setIsMenuVisible(false);
+      setIsLoading(false);
     }
   };
 
@@ -87,6 +98,7 @@ const VideoCard = ({
           onPress={() => {
             setIsMenuVisible(!isMenuVisible);
           }}
+          disabled={isLoading}
           className="pt-2"
         >
           <Image

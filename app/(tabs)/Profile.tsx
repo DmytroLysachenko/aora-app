@@ -30,6 +30,7 @@ const Profile = () => {
           <VideoCard
             key={item.id}
             video={item}
+            refetch={refetch}
           />
         )}
         ListHeaderComponent={() => (

@@ -1,5 +1,5 @@
 import { FlatList, Image, RefreshControl, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
 import SearchInput from "@/components/SearchInput";
@@ -29,6 +29,7 @@ const Bookmark = () => {
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <VideoCard
+            refetch={refetch}
             key={item.$id}
             video={item}
           />
